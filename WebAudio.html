@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="id=edge"/>
+    <title>Title</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #canvas {
+            display: block;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<audio id="audio" src="music.mp3"></audio>
+<button onclick="play()">播放</button>
+<script>
+    var play = () => {
+        // 获取本地媒体资源
+        var audio = document.querySelector('#audio')
+        // 创建音频上下文对象
+        var audioContext = new AudioContext();
+        // 控制流程
+        // 创建媒体源
+        var audioSrc = audioContext.createMediaElementSource(audio);
+        // 加工媒体源（分析机，分析音频对象，进行音频加工处理）
+        var analyser = audioContext.createAnalyser();
+        // 媒体源个分析机的链接
+        audioSrc.connect(analyser);
+
+        // canvas相关，定义canvas相关属性
+        var canvas = document.querySelector('#canvas');
+        var ctx = canvas.getContext('2d')
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        var oW = canvas.width;
+        var oH = canvas.height;
+        // 选中画布中间位置作为起始点，方便计算
+        var color = ctx.createLinearGradient(oW / 2, oH / 2 - 30, oW / 2, oH / 2 - 100);
+        color.addColorStop(0, 'yellow');
+        color.addColorStop(.5, 'blue');
+        color.addColorStop(1, 'red');
+
+        // 绘制频谱条数
+        var count = 80;
+        // 输出音频
+        analyser.connect(audioContext.destination);
+        // 数据来源解析
+        // 得到音频数据样本，可视化使用的数据值的数量
+        // 存储数据：Uint8Array 8位无符号字节数组，初始化默认长度是1024
+        var voiceHeight = new Uint8Array(analyser.frequencyBinCount);
+        audio.play()
+        setInterval(() => {
+            // 分析当前的音频数据，做到实时数据更新
+            analyser.getByteFrequencyData(voiceHeight);
+            // 数据渲染
+            // 自定义获取数组里面的数据的频步(~~取整)
+            var step = ~~(voiceHeight.length / count);
+            ctx.clearRect(0, 0, oW, oH);
+            for (let i = 0; i < count; i++) {
+                // 得到数组里面的具体数据
+                var audioHeight = voiceHeight[step * i];
+                ctx.fillStyle = color;
+                ctx.fillRect(oW / 2 + (i * 10), oH / 2, 7, -audioHeight);
+                ctx.fillRect(oW / 2 - (i * 10), oH / 2, 7, -audioHeight);
+            }
+        }, 10)
+
+    }
+</script>
+</body>
+</html>
+
