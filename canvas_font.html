@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="id=edge"/>
+    <title>css字体阴影</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            background: pink;
+        }
+
+        #canvas {
+            margin: 100px auto;
+            background: white;
+            box-shadow: gray 20px 20px 20px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600"></canvas>
+<script>
+    let draw = () => {
+        let canvas = document.getElementById('canvas')
+        if (canvas.getContext) {
+            let ctx = canvas.getContext('2d')
+            ctx.font = 'bold italic 160px arial'
+            ctx.shadowColor='Orange'
+            ctx.shadowBlur=20
+            ctx.shadowOffsetX=20
+            ctx.shadowOffsetY=20
+
+
+            let lingrad = ctx.createLinearGradient(0, 0, 0, 500)
+
+            // 参数1:0-1.0之间的数值，表示颜色所在的相对位置，比如0.5表示中间位置
+            // 参数2：颜色，red、rgb等
+            lingrad.addColorStop(0, '#cc6677')
+            lingrad.addColorStop(0.5, '#fff')
+            lingrad.addColorStop(0.5, '#c6c776')
+
+            ctx.fillStyle=lingrad
+            ctx.fillText('Henry',100,200)
+        }
+    }
+    draw()
+</script>
+</body>
+</html>

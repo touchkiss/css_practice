@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="id=edge"/>
+    <title>css径向渐变</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            background: pink;
+        }
+
+        #canvas {
+            margin: 100px auto;
+            background: white;
+            box-shadow: gray 20px 20px 20px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600"></canvas>
+<script>
+    let draw = () => {
+        let canvas = document.getElementById('canvas')
+        if (canvas.getContext) {
+            let ctx = canvas.getContext('2d')
+
+            // 线性渐变
+            // 参数1：圆心1--x1
+            // 参数2：圆心1--y1
+            // 参数3：半径r1
+            // 参数4：圆心2--x2
+            // 参数5：圆心2--y2
+            // 参数6：半径r2
+
+            let radgrad = ctx.createRadialGradient(50, 50, 10, 50, 50, 100)
+
+            radgrad.addColorStop(0, '#A7D30C')
+            radgrad.addColorStop(0.9, '#019F62')
+            radgrad.addColorStop(1, 'rgba(1,159,98,0)')
+
+            // 画图形
+            ctx.fillStyle = radgrad
+            ctx.fillRect(0, 0, 150, 150)
+        }
+    }
+    draw()
+</script>
+</body>
+</html>

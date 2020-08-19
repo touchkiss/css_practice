@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="id=edge"/>
+    <title>css画圆</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            background: pink;
+        }
+
+        #canvas {
+            margin: 100px auto;
+            background: white;
+            box-shadow: gray 20px 20px 20px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600"></canvas>
+<script>
+    let draw = () => {
+        let canvas = document.getElementById('canvas')
+        if (canvas.getContext) {
+            let ctx = canvas.getContext('2d')
+
+            // 圆的组成，圆心x，y 半径，开始角度，结束角度，顺逆时针
+
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 3; j++) {
+                    ctx.beginPath()
+                    let x = 25 + j * 100
+                    let y = 25 + i * 100
+                    let radius = 20
+                    let startAngle = 0
+                    let endAngle = Math.PI + (Math.PI * j) / 2
+
+                    let anticlockwise = i % 2 !== 0
+
+                    ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise)
+                    if (i<2){
+                        ctx.stroke()
+                    }else {
+                        ctx.fill()
+                    }
+                }
+            }
+
+
+        }
+    }
+    draw()
+</script>
+</body>
+</html>
