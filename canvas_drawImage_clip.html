@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="id=edge"/>
+    <title>css drawImage截取圆形</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            background: pink;
+        }
+
+        #canvas {
+            margin: 100px auto;
+            background: white;
+            box-shadow: gray 20px 20px 20px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600"></canvas>
+<script>
+    let draw = () => {
+        let canvas = document.getElementById('canvas')
+        if (canvas.getContext) {
+            let ctx = canvas.getContext('2d')
+
+            let img = new Image()
+            img.src = 'image.png'
+
+            img.onload = () => {
+                ctx.beginPath()
+                ctx.arc(400,300,150,0,Math.PI*2)
+                ctx.fill()
+                ctx.clip()
+                ctx.drawImage(img,150,110)
+            }
+        }
+    }
+    draw()
+</script>
+</body>
+</html>

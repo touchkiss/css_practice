@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="id=edge"/>
+    <title>css 涂鸦-鼠标点击事件</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            background: pink;
+        }
+
+        #canvas {
+            margin: 100px auto;
+            background: white;
+            box-shadow: gray 20px 20px 20px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600"></canvas>
+<script>
+    let draw = () => {
+        let canvas = document.getElementById('canvas')
+        if (canvas.getContext) {
+            let ctx = canvas.getContext('2d')
+
+            canvas.onmousedown = (e) => {
+                let ev = e || window.event
+                let x = ev.clientX - canvas.offsetLeft
+                let y = ev.clientY - canvas.offsetTop
+
+                ctx.strokeStyle = 'green'
+                ctx.lineWidth = 10
+
+                ctx.beginPath()
+                ctx.moveTo(x, y)
+
+                canvas.onmousemove = (e) => {
+                    let ev = e || window.event
+                    let x = ev.clientX - canvas.offsetLeft
+                    let y = ev.clientY - canvas.offsetTop
+
+                    ctx.lineTo(x, y)
+                    ctx.stroke()
+                }
+
+                canvas.onmouseup = (e) => {
+                    canvas.onmousemove = ''
+                }
+            }
+        }
+    }
+    draw()
+</script>
+</body>
+</html>
